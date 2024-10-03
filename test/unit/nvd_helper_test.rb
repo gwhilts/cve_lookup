@@ -12,18 +12,39 @@ describe NVDHelper do
     @product_version = '2.1.2'
     @uri = 'https://services.nvd.nist.gov/rest/json/cpes/2.0?cpeMatchString=cpe:2.3:*:*:jquery:2.1.2'
     @cpe_name = 'cpe:2.3:a:jquery:jquery:2.1.2:*:*:*:*:*:*:*'
+    @results = nil
   end
 
   describe '.cpe_list_for' do
+    before do
+      @results = NVDHelper.cpe_list_for(@product_name, @product_version)
+    end
+
+    it ' returns an Array of Hashes (if any)' do
+      _(@results.class).must_equal Array
+      if @results.size > 0
+        _(@results[0].class).must_equal Hash
+      end
+    end
+
     it ' queries the NVD for CPEs matching a given product name and version' do
-      products = NVDHelper.cpe_list_for(@product_name, @product_version)
-      _(products.map { |p| p[:cpeName] }).must_include @cpe_name
+      _(@results.map { |p| p[:cpeName] }).must_include @cpe_name
     end
   end
 
   describe '.cpe_uri' do
     it ' returns the URI to query the cpe search API with a given product name and version' do
       _(NVDHelper.cpe_uri('jquery', '2.1.2')).must_equal @uri
+    end
+  end
+
+  describe '.cve_list_for' do
+    before do
+      @results = NVDHelper.cve_list_for(@cpe_name)
+    end
+    it ' queries the NVD for all CVEs matching a given CPE' do
+      _(@results.size).must_be :>=, 4
+      _(@results).must_include "CVE-2019-11358"
     end
   end
 end

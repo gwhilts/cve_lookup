@@ -16,4 +16,12 @@ class NVDHelper
     "#{NIST_API_SERVER}/rest/json/cpes/2.0?cpeMatchString=cpe:2.3:*:*:#{name}:#{version}"
   end
 
+  def self.cve_list_for(cpeName)
+    HTTParty.get(cve_uri(cpeName))["vulnerabilities"].map { |v| v["cve"]["id"] }
+  end
+
+  def self.cve_uri(cpeName)
+    "#{NIST_API_SERVER}/rest/json/cves/2.0?cpeName=#{cpeName}"
+  end
+
 end
