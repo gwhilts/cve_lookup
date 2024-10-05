@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir["README.md", "Gemfile", "Rakefile", "{bin,lib}/**/*"]
   spec.executables << "cve"
   spec.license = "MIT"
+  spec.required_ruby_version = ">= 3.0"
   spec.add_runtime_dependency "gems", "~> 1.2", ">= 1.2.0"
   spec.add_runtime_dependency "httparty", "~> 0.22", ">= 0.22.0"
-  spec.required_ruby_version ">= 3.0"
 end
