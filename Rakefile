@@ -38,10 +38,10 @@ task :print_specs do
     File.readlines(f).each do |line|
       indent += 1 if /\bdo\b/ =~ line
       case
-      when /describe\s*\"(.*)\"/ =~ line
+      when /describe\s*\'(.*)\'/ =~ line
         puts "#{"  " * indent}#{$1}"
-      when /it\s*\"(.*)\"/ =~ line
-        puts "#{"  " * indent}it #{$1}"
+      when /it\s*\'(.*)\'/ =~ line
+        puts "#{"  " * indent}#{$1}"
       when /^\s*end/ =~ line
         indent = [indent -= 1, 0].max
       end
