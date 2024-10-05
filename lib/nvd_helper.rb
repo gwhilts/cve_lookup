@@ -3,22 +3,31 @@
 
 class NVDHelper
   require 'httparty'
+  require 'cgi'
 
   NIST_API_SERVER = "https://services.nvd.nist.gov"
   NIST_CVE_URL_BASE = "https://nvd.nist.gov/vuln/detail/"
 
   def self.cpe_list_for(name, version)
-    HTTParty.get(cpe_uri(name, version))['products'].map do |p|
-      { title: p['cpe']['titles'][0]['title'], cpeName: p['cpe']['cpeName'] }
+    begin
+      HTTParty.get(cpe_uri(name, version))['products'].map do |p|
+        { title: p['cpe']['titles'][0]['title'], cpe_name: p['cpe']['cpeName'] }
+      end
+    rescue
+      []
     end
   end
 
   def self.cpe_uri(name, version)
-    "#{NIST_API_SERVER}/rest/json/cpes/2.0?cpeMatchString=cpe:2.3:*:*:#{name}:#{version}"
+    "#{NIST_API_SERVER}/rest/json/cpes/2.0?cpeMatchString=cpe:2.3:*:*:#{CGI.escape(name)}:#{CGI.escape(version)}"
   end
 
   def self.cve_list_for(cpe_name)
-    HTTParty.get(cve_uri(cpe_name))["vulnerabilities"].map { |v| v["cve"]["id"] }
+    # begin
+      HTTParty.get(cve_uri(cpe_name))["vulnerabilities"].map { |v| v["cve"]["id"] }
+    # rescue
+    #   []
+    # end
   end
 
   def self.cve_uri(cpe_name)
