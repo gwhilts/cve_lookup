@@ -61,12 +61,12 @@ class Search
     puts "\n--\nSearching NIST National Vulnerability Database for #{@cpe_title} ...\n\n"
     case cve_list.count
     when 0
-      puts "Unable to located any CVEs for #{@product} v#{@version}."
+      puts "Unable to locate any CVEs for #{@cpe_title}."
     when 1
-      puts "The following CVE is associated with #{@product} v#{@version}:\n\n"
+      puts "The following CVE is associated with #{@cpe_title}:\n\n"
       puts cve_list.map { |cve| "https://nvd.nist.gov/vuln/detail/#{cve}" }
     else
-      puts "The following CVEs are associated with #{@product} v#{@version}:\n\n"
+      puts "The following CVEs are associated with #{@cpe_title}:\n\n"
       puts cve_list.map { |cve| "https://nvd.nist.gov/vuln/detail/#{cve}" }
     end
   end
