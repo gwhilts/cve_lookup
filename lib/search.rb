@@ -58,7 +58,7 @@ class Search
   def present_cve_list
     cve_list = NVDHelper.cve_list_for(@cpe_name)
     
-    puts "\n--\nSearching Nist National Vulnerability Database for #{@cpe_title}\n\n"
+    puts "\n--\nSearching NIST National Vulnerability Database for #{@cpe_title}\n\n"
     case cve_list.count
     when 0
       puts "Unable to located any CVEs for #{@product} v#{@version}."
