@@ -23,11 +23,7 @@ class NVDHelper
   end
 
   def self.cve_list_for(cpe_name)
-    # begin
-      HTTParty.get(cve_uri(cpe_name))["vulnerabilities"].map { |v| v["cve"]["id"] }
-    # rescue
-    #   []
-    # end
+      (HTTParty.get(cve_uri(cpe_name))["vulnerabilities"].map { |v| v["cve"]["id"] }).sort.reverse
   end
 
   def self.cve_uri(cpe_name)

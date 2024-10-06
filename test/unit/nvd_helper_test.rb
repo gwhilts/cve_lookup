@@ -17,7 +17,7 @@ describe NVDHelper do
     end
 
     it ' queries the NVD for CPEs matching a given product name and version' do
-      _(@results.map { |p| p[:cpeName] }).must_include CPE_NAME
+      _(@results.map { |p| p[:cpe_name] }).must_include CPE_NAME
     end
   end
 
